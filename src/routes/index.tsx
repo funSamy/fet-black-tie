@@ -27,7 +27,9 @@ export const Route = createFileRoute("/")({
         content:
           "The Night of Excellence at The Millennium Hall. Reserve Classic, VIP or Table of 5.",
       },
+      { property: "og:url", content: "https://blacktie-sparkle.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://blacktie-sparkle.lovable.app/" }],
   }),
   component: LandingPage,
 });
