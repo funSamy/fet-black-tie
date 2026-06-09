@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      anonymous_messages: {
+        Row: {
+          approved_at: string | null
+          content: string
+          created_at: string
+          display_name: string | null
+          id: string
+          status: Database["public"]["Enums"]["message_status"]
+        }
+        Insert: {
+          approved_at?: string | null
+          content: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["message_status"]
+        }
+        Update: {
+          approved_at?: string | null
+          content?: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["message_status"]
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          amount: number
+          buyer_name: string
+          created_at: string
+          external_id: string
+          fapshi_payment_link: string | null
+          fapshi_trans_id: string | null
+          id: string
+          medium: string | null
+          paid_amount: number | null
+          payer_name: string | null
+          phone_number: string
+          revenue: number | null
+          status: Database["public"]["Enums"]["order_status"]
+          tier: Database["public"]["Enums"]["ticket_tier"]
+          updated_at: string
+          user_email: string
+        }
+        Insert: {
+          amount: number
+          buyer_name: string
+          created_at?: string
+          external_id: string
+          fapshi_payment_link?: string | null
+          fapshi_trans_id?: string | null
+          id?: string
+          medium?: string | null
+          paid_amount?: number | null
+          payer_name?: string | null
+          phone_number: string
+          revenue?: number | null
+          status?: Database["public"]["Enums"]["order_status"]
+          tier: Database["public"]["Enums"]["ticket_tier"]
+          updated_at?: string
+          user_email: string
+        }
+        Update: {
+          amount?: number
+          buyer_name?: string
+          created_at?: string
+          external_id?: string
+          fapshi_payment_link?: string | null
+          fapshi_trans_id?: string | null
+          id?: string
+          medium?: string | null
+          paid_amount?: number | null
+          payer_name?: string | null
+          phone_number?: string
+          revenue?: number | null
+          status?: Database["public"]["Enums"]["order_status"]
+          tier?: Database["public"]["Enums"]["ticket_tier"]
+          updated_at?: string
+          user_email?: string
+        }
+        Relationships: []
+      }
+      tickets: {
+        Row: {
+          created_at: string
+          first_scan_at: string | null
+          id: string
+          is_fully_used: boolean
+          last_scan_at: string | null
+          order_id: string
+          qr_slug: string
+          slots_total: number
+          slots_used: number
+        }
+        Insert: {
+          created_at?: string
+          first_scan_at?: string | null
+          id?: string
+          is_fully_used?: boolean
+          last_scan_at?: string | null
+          order_id: string
+          qr_slug?: string
+          slots_total: number
+          slots_used?: number
+        }
+        Update: {
+          created_at?: string
+          first_scan_at?: string | null
+          id?: string
+          is_fully_used?: boolean
+          last_scan_at?: string | null
+          order_id?: string
+          qr_slug?: string
+          slots_total?: number
+          slots_used?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +150,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      message_status: "PENDING" | "APPROVED" | "DELETED"
+      order_status: "PENDING" | "SUCCESSFUL" | "FAILED" | "EXPIRED"
+      ticket_tier:
+        | "CLASSIC"
+        | "CLASSIC_COUPLE"
+        | "VIP"
+        | "VIP_COUPLE"
+        | "TABLE_OF_5"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +284,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      message_status: ["PENDING", "APPROVED", "DELETED"],
+      order_status: ["PENDING", "SUCCESSFUL", "FAILED", "EXPIRED"],
+      ticket_tier: [
+        "CLASSIC",
+        "CLASSIC_COUPLE",
+        "VIP",
+        "VIP_COUPLE",
+        "TABLE_OF_5",
+      ],
+    },
   },
 } as const
