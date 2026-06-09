@@ -97,15 +97,15 @@ const OrderLookupSchema = z.object({ orderId: z.string().uuid() });
 export const getOrderStatus = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => OrderLookupSchema.parse(d))
   .handler(async ({ data }) => {
-    const { supabase } = await import("@/integrations/supabase/client");
-    const { data: order, error } = await supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: order, error } = await supabaseAdmin
       .from("orders")
       .select("id, status, buyer_name, tier, amount, user_email, created_at")
       .eq("id", data.orderId)
       .maybeSingle();
     if (error || !order) return null;
 
-    const { data: tickets } = await supabase
+    const { data: tickets } = await supabaseAdmin
       .from("tickets")
       .select("id, qr_slug, slots_total, slots_used")
       .eq("order_id", order.id);
