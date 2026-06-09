@@ -86,6 +86,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "FET Black Tie Event — 4 July 2026" },
+      { name: "twitter:title", content: "FET Black Tie Event — 4 July 2026" },
+      { name: "description", content: "Gala Glow is a Next.js 16 application for managing ticket sales and event check-in for the FET Black Tie Gala." },
+      { property: "og:description", content: "Gala Glow is a Next.js 16 application for managing ticket sales and event check-in for the FET Black Tie Gala." },
+      { name: "twitter:description", content: "Gala Glow is a Next.js 16 application for managing ticket sales and event check-in for the FET Black Tie Gala." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/dece804b-6afe-423e-9da6-70ff452fded6/id-preview-b33a870b--47f9abf3-228a-4470-8dad-9fc1892b4a7f.lovable.app-1780966681939.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/dece804b-6afe-423e-9da6-70ff452fded6/id-preview-b33a870b--47f9abf3-228a-4470-8dad-9fc1892b4a7f.lovable.app-1780966681939.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
