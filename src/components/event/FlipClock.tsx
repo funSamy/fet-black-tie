@@ -19,9 +19,12 @@ function diff(target: number) {
 
 export function FlipClock({ targetISO }: Props) {
   const target = new Date(targetISO).getTime();
+  const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState(() => diff(target));
 
   useEffect(() => {
+    setMounted(true);
+    setTime(diff(target));
     const id = setInterval(() => setTime(diff(target)), 1000);
     return () => clearInterval(id);
   }, [target]);
@@ -40,12 +43,13 @@ export function FlipClock({ targetISO }: Props) {
           <div className="relative overflow-hidden rounded-md bg-gradient-to-b from-[var(--color-surface-2)] to-card px-3 py-2 sm:px-4 sm:py-3 min-w-[60px] sm:min-w-[72px] border border-border shadow-gold">
             <span
               key={c.value}
+              suppressHydrationWarning
               className="block font-display text-3xl sm:text-4xl text-gradient-gold text-center tabular-nums leading-none"
               style={{
                 animation: "fade-in 0.4s ease-out",
               }}
             >
-              {c.value.toString().padStart(2, "0")}
+              {mounted ? c.value.toString().padStart(2, "0") : "--"}
             </span>
           </div>
           <span className="mt-1.5 font-condensed text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
