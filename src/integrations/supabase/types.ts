@@ -142,14 +142,55 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      burn_ticket_slot: {
+        Args: { _qr_slug: string }
+        Returns: {
+          buyer_name: string
+          is_fully_used: boolean
+          order_id: string
+          order_paid: boolean
+          slots_total: number
+          slots_used: number
+          ticket_id: string
+          tier: Database["public"]["Enums"]["order_status"]
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "admin" | "scanner"
       message_status: "PENDING" | "APPROVED" | "DELETED"
       order_status: "PENDING" | "SUCCESSFUL" | "FAILED" | "EXPIRED"
       ticket_tier:
@@ -285,6 +326,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "scanner"],
       message_status: ["PENDING", "APPROVED", "DELETED"],
       order_status: ["PENDING", "SUCCESSFUL", "FAILED", "EXPIRED"],
       ticket_tier: [
