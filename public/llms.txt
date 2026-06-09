@@ -1,0 +1,8 @@
+# FET Black Tie Event
+
+> The Night of Excellence — University of Buea Faculty of Engineering & Technology Black Tie Gala on 4 July 2026 at The Millennium Hall. Reserve tickets and send anonymous shout-outs.
+
+## Pages
+
+- [Home](/): Event details, countdown, ticket tiers and booking.
+- [Send a shout-out](/message): Submit an anonymous message to be displayed at the event.
