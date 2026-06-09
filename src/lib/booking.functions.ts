@@ -98,9 +98,10 @@ export const getOrderStatus = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => OrderLookupSchema.parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Do NOT return user_email — order UUID is shareable and email is PII.
     const { data: order, error } = await supabaseAdmin
       .from("orders")
-      .select("id, status, buyer_name, tier, amount, user_email, created_at")
+      .select("id, status, buyer_name, tier, amount, created_at")
       .eq("id", data.orderId)
       .maybeSingle();
     if (error || !order) return null;
