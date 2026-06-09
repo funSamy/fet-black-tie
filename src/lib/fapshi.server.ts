@@ -1,7 +1,15 @@
 // Server-only Fapshi client. NEVER import from client/route code directly.
 // Always loaded via `await import(...)` inside a createServerFn handler or a server route.
 
-const BASE = () => process.env.FAPSHI_BASE_URL || "https://sandbox.fapshi.com";
+const BASE = () => {
+  const url = process.env.FAPSHI_BASE_URL;
+  if (!url) {
+    throw new Error(
+      "FAPSHI_BASE_URL is required. Set it to https://live.fapshi.com for production or https://sandbox.fapshi.com for testing."
+    );
+  }
+  return url;
+};
 
 function headers() {
   const apiuser = process.env.FAPSHI_API_USER;
