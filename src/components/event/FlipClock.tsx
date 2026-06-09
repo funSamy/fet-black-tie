@@ -19,9 +19,12 @@ function diff(target: number) {
 
 export function FlipClock({ targetISO }: Props) {
   const target = new Date(targetISO).getTime();
+  const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState(() => diff(target));
 
   useEffect(() => {
+    setMounted(true);
+    setTime(diff(target));
     const id = setInterval(() => setTime(diff(target)), 1000);
     return () => clearInterval(id);
   }, [target]);
