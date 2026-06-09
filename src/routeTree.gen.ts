@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MessageRouteImport } from './routes/message'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfirmationOrderIdRouteImport } from './routes/confirmation.$orderId'
 import { Route as ApiPublicWebhooksFapshiRouteImport } from './routes/api/public/webhooks/fapshi'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MessageRoute = MessageRouteImport.update({
   id: '/message',
   path: '/message',
@@ -38,12 +44,14 @@ const ApiPublicWebhooksFapshiRoute = ApiPublicWebhooksFapshiRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/message': typeof MessageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/message': typeof MessageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
@@ -51,6 +59,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/message': typeof MessageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
@@ -59,18 +68,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/message'
+    | '/sitemap.xml'
     | '/confirmation/$orderId'
     | '/api/public/webhooks/fapshi'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/message'
+    | '/sitemap.xml'
     | '/confirmation/$orderId'
     | '/api/public/webhooks/fapshi'
   id:
     | '__root__'
     | '/'
     | '/message'
+    | '/sitemap.xml'
     | '/confirmation/$orderId'
     | '/api/public/webhooks/fapshi'
   fileRoutesById: FileRoutesById
@@ -78,12 +90,20 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MessageRoute: typeof MessageRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ConfirmationOrderIdRoute: typeof ConfirmationOrderIdRoute
   ApiPublicWebhooksFapshiRoute: typeof ApiPublicWebhooksFapshiRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/message': {
       id: '/message'
       path: '/message'
@@ -118,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MessageRoute: MessageRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ConfirmationOrderIdRoute: ConfirmationOrderIdRoute,
   ApiPublicWebhooksFapshiRoute: ApiPublicWebhooksFapshiRoute,
 }
