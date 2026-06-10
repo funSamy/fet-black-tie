@@ -261,4 +261,3 @@ function WhatsAppShare({
     </div>
   );
 }
-}
