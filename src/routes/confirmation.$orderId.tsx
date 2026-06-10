@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, CheckCircle2, XCircle, Home } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Home, MessageCircle } from "lucide-react";
 import { getOrderStatus } from "@/lib/booking.functions";
 import { EVENT, TIER_LABEL, TIER_SLOTS, formatXAF } from "@/lib/event";
 import { UniversityLogos } from "@/components/event/UniversityLogos";
@@ -149,6 +149,16 @@ function ConfirmationPage() {
         </div>
       </div>
 
+      {ticket && origin && (
+        <WhatsAppShare
+          origin={origin}
+          buyerName={order.buyer_name}
+          tier={order.tier}
+          slots={TIER_SLOTS[order.tier]}
+          qrSlug={ticket.qr_slug}
+        />
+      )}
+
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Save this page or screenshot the QR code — it's your entry pass. The QR is
         scannable {ticket?.slots_total ?? 1} time
@@ -198,6 +208,56 @@ function PulsingRings() {
           100% { transform: scale(1.6); opacity: 0; }
         }
       `}</style>
+    </div>
+  );
+}
+
+function WhatsAppShare({
+  origin,
+  buyerName,
+  tier,
+  slots,
+  qrSlug,
+}: {
+  origin: string;
+  buyerName: string;
+  tier: string;
+  slots: number;
+  qrSlug: string;
+}) {
+  const checkinUrl = `${origin}/checkin/${qrSlug}`;
+  const tierLabel = TIER_LABEL[tier as keyof typeof TIER_LABEL] ?? tier;
+  const eventLine = `${EVENT.venue} · ${EVENT.date} · ${EVENT.time}`;
+
+  const message = encodeURIComponent(
+    `🎉 *FET Black Tie Event — Ticket Confirmed*\n\n` +
+      `👤 *Name:* ${buyerName}\n` +
+      `🎫 *Tier:* ${tierLabel}\n` +
+      `👥 *Guests:* ${slots}\n` +
+      `📍 *Event:* ${eventLine}\n\n` +
+      `🔗 *Your entry QR code:*\n${checkinUrl}\n\n` +
+      `Save this message — you'll need the QR link at the door. See you at the Gala! 🥂`
+  );
+
+  // wa.me uses full international format; Cameroon is +237
+  // We don't have the number here, so open WhatsApp without a specific recipient
+  // and let the user choose the contact (themselves or a friend)
+  const waLink = `https://wa.me/?text=${message}`;
+
+  return (
+    <div className="mt-6 flex flex-col items-center gap-3">
+      <a
+        href={waLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98]"
+      >
+        <MessageCircle className="h-5 w-5" />
+        Save to my WhatsApp
+      </a>
+      <p className="text-xs text-muted-foreground">
+        Tap to open WhatsApp and send your ticket to yourself
+      </p>
     </div>
   );
 }
