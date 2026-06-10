@@ -19,6 +19,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminScanRouteImport } from './routes/_authenticated/admin.scan'
 import { Route as ApiPublicWebhooksFapshiRouteImport } from './routes/api/public/webhooks/fapshi'
+import { Route as ApiPublicCronReconcileRouteImport } from './routes/api/public/cron/reconcile'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -69,6 +70,11 @@ const ApiPublicWebhooksFapshiRoute = ApiPublicWebhooksFapshiRouteImport.update({
   path: '/api/public/webhooks/fapshi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCronReconcileRoute = ApiPublicCronReconcileRouteImport.update({
+  id: '/api/public/cron/reconcile',
+  path: '/api/public/cron/reconcile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/admin/scan': typeof AuthenticatedAdminScanRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/cron/reconcile': typeof ApiPublicCronReconcileRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
 export interface FileRoutesByTo {
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/admin/scan': typeof AuthenticatedAdminScanRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/api/public/cron/reconcile': typeof ApiPublicCronReconcileRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
 export interface FileRoutesById {
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/confirmation/$orderId': typeof ConfirmationOrderIdRoute
   '/_authenticated/admin/scan': typeof AuthenticatedAdminScanRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/cron/reconcile': typeof ApiPublicCronReconcileRoute
   '/api/public/webhooks/fapshi': typeof ApiPublicWebhooksFapshiRoute
 }
 export interface FileRouteTypes {
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/confirmation/$orderId'
     | '/admin/scan'
     | '/admin/'
+    | '/api/public/cron/reconcile'
     | '/api/public/webhooks/fapshi'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/confirmation/$orderId'
     | '/admin/scan'
     | '/admin'
+    | '/api/public/cron/reconcile'
     | '/api/public/webhooks/fapshi'
   id:
     | '__root__'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/confirmation/$orderId'
     | '/_authenticated/admin/scan'
     | '/_authenticated/admin/'
+    | '/api/public/cron/reconcile'
     | '/api/public/webhooks/fapshi'
   fileRoutesById: FileRoutesById
 }
@@ -147,6 +159,7 @@ export interface RootRouteChildren {
   MessageRoute: typeof MessageRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ConfirmationOrderIdRoute: typeof ConfirmationOrderIdRoute
+  ApiPublicCronReconcileRoute: typeof ApiPublicCronReconcileRoute
   ApiPublicWebhooksFapshiRoute: typeof ApiPublicWebhooksFapshiRoute
 }
 
@@ -222,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhooksFapshiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/reconcile': {
+      id: '/api/public/cron/reconcile'
+      path: '/api/public/cron/reconcile'
+      fullPath: '/api/public/cron/reconcile'
+      preLoaderRoute: typeof ApiPublicCronReconcileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -256,6 +276,7 @@ const rootRouteChildren: RootRouteChildren = {
   MessageRoute: MessageRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ConfirmationOrderIdRoute: ConfirmationOrderIdRoute,
+  ApiPublicCronReconcileRoute: ApiPublicCronReconcileRoute,
   ApiPublicWebhooksFapshiRoute: ApiPublicWebhooksFapshiRoute,
 }
 export const routeTree = rootRouteImport
