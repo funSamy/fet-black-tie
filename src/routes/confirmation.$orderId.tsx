@@ -206,6 +206,12 @@ function PulsingRings() {
         @keyframes pulse-ring {
           0% { transform: scale(0.6); opacity: 1; }
           100% { transform: scale(1.6); opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function WhatsAppShare({
   origin,
   buyerName,
@@ -255,7 +261,4 @@ function WhatsAppShare({
     </div>
   );
 }
-      `}</style>
-    </div>
-  );
 }
