@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, CheckCircle2, XCircle, Home } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Home, MessageCircle } from "lucide-react";
 import { getOrderStatus } from "@/lib/booking.functions";
 import { EVENT, TIER_LABEL, TIER_SLOTS, formatXAF } from "@/lib/event";
 import { UniversityLogos } from "@/components/event/UniversityLogos";
