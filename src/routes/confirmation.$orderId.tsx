@@ -149,6 +149,16 @@ function ConfirmationPage() {
         </div>
       </div>
 
+      {ticket && origin && (
+        <WhatsAppShare
+          origin={origin}
+          buyerName={order.buyer_name}
+          tier={order.tier}
+          slots={TIER_SLOTS[order.tier]}
+          qrSlug={ticket.qr_slug}
+        />
+      )}
+
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Save this page or screenshot the QR code — it's your entry pass. The QR is
         scannable {ticket?.slots_total ?? 1} time
