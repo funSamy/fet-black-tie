@@ -1,8 +1,38 @@
 # FET Black Tie Event
 
-> The Night of Excellence — University of Buea Faculty of Engineering & Technology Black Tie Gala on 4 July 2026 at The Millennium Hall. Reserve tickets and send anonymous shout-outs.
+> The Night of Excellence — University of Buea Faculty of Engineering & Technology Black Tie Gala on 4 July 2026 at Amelia Apart Hotel, Bokwai-Buea. Reserve tickets and send anonymous shout-outs.
 
-## Pages
+## About
 
-- [Home](/): Event details, countdown, ticket tiers and booking.
-- [Send a shout-out](/message): Submit an anonymous message to be displayed at the event.
+The FET Black Tie Event is a formal gala organised by the University of Buea's Faculty of Engineering & Technology. It brings together students, alumni, faculty, and distinguished guests for an evening of celebration, networking, and entertainment. The event features live performances, a curated dinner, and a digital shout-out wall where attendees can send anonymous messages projected during the night.
+
+## Public Pages
+
+- [Home](https://fet-black-tie.mybrainboostapp.com/): Event details, live countdown timer, ticket tiers (Classic, VIP, Tables), and booking form.
+- [Send a shout-out](https://fet-black-tie.mybrainboostapp.com/message): Submit an anonymous message to be displayed on the live wall at the event.
+- [The Wall](https://fet-black-tie.mybrainboostapp.com/board): Real-time display of approved shout-outs projected during the gala.
+
+## Ticket Tiers
+
+- **Classic** — 5,000 XAF (1 seat)
+- **Classic Couple** — 9,000 XAF (2 seats)
+- **VIP Classic** — 10,000 XAF (1 seat, premium)
+- **VIP Couple** — 18,000 XAF (2 seats, premium)
+- **Table of 5** — 30,000 XAF
+- **Table of 5 VIP** — 50,000 XAF
+- **Table of 10** — 100,000 XAF
+
+Online booking closes 30 June 2026. Payment is processed via Fapshi (Mobile Money / Orange Money).
+
+## Key Details
+
+- **Date:** 4 July 2026, 6:00 PM
+- **Venue:** Amelia Apart Hotel, Bokwai-Buea
+- **Dress Code:** Corporate
+- **Contact:** 676 658 443
+- **Organiser:** University of Buea — Faculty of Engineering & Technology
+
+## Links
+
+- [Full documentation](https://fet-black-tie.mybrainboostapp.com/llms-full.txt): Comprehensive product documentation.
+- [Sitemap](https://fet-black-tie.mybrainboostapp.com/sitemap.xml): XML sitemap for search engines.
