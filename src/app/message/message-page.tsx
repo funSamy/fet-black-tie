@@ -34,19 +34,30 @@ export function MessagePage() {
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
       <header className="mb-8 flex items-center justify-between">
         <UniversityLogos />
-        <Link
-          href="/"
-          className="text-xs font-condensed uppercase tracking-widest text-muted-foreground hover:text-gold"
-        >
-          ← Home
-        </Link>
+        <nav className="flex items-center gap-4">
+          <Link
+            href="/board"
+            className="text-xs font-condensed uppercase tracking-widest text-muted-foreground hover:text-gold"
+          >
+            See the wall
+          </Link>
+          <Link
+            href="/"
+            className="text-xs font-condensed uppercase tracking-widest text-muted-foreground hover:text-gold"
+          >
+            ← Home
+          </Link>
+        </nav>
       </header>
 
       <div className="font-script text-3xl text-gold">From the crowd</div>
       <h1 className="font-display text-5xl text-gradient-gold leading-none">Send a shout-out</h1>
       <p className="mt-4 text-muted-foreground">
-        Drop a message for the crowd. Approved messages will be projected on the wall during the
-        gala. You can stay anonymous.
+        Drop a message for the crowd. Approved messages will be projected on{" "}
+        <Link href="/board" className="text-gold underline-offset-4 hover:underline">
+          the wall
+        </Link>{" "}
+        during the gala. You can stay anonymous.
       </p>
 
       <form

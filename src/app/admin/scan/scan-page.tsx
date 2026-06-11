@@ -16,9 +16,12 @@ export function ScanPage() {
   function parseSlug(raw: string): string | null {
     const trimmed = raw.trim();
     if (!trimmed) return null;
-    // Accept either a raw slug or a confirmation URL containing a slug
+    // Accept a raw slug, a /checkin/<slug> URL (what ticket QRs encode),
+    // or a legacy ?qr=<slug> link.
     try {
       const u = new URL(trimmed);
+      const checkin = u.pathname.match(/\/checkin\/([^/?#]+)/);
+      if (checkin) return decodeURIComponent(checkin[1]);
       const m = u.pathname.match(/qr=([^/?&]+)/);
       if (m) return m[1];
       const qs = u.searchParams.get("qr");

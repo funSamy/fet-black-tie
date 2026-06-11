@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
-Sitemap: https://blacktie-sparkle.lovable.app/sitemap.xml
+Sitemap: https://fet-black-tie.lovable.app/sitemap.xml

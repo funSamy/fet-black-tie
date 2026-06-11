@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { MapPin, Calendar, Clock, Sparkles } from "lucide-react";
-import { EVENT, TIER_ORDER, type TicketTier } from "@/lib/event";
+import { MapPin, Calendar, Clock, Sparkles, Shirt, Lock } from "lucide-react";
+import { EVENT, TIER_ORDER, isBookingClosed, type TicketTier } from "@/lib/event";
 import { UniversityLogos } from "@/components/event/UniversityLogos";
 import { EventBadge } from "@/components/event/EventBadge";
 import { TicketCard } from "@/components/event/TicketCard";
@@ -11,11 +11,19 @@ import { SpotlightCursor } from "@/components/event/SpotlightCursor";
 import { SplitHeadline } from "@/components/event/SplitHeadline";
 import { FlipClock } from "@/components/event/FlipClock";
 import { BookingForm } from "@/components/event/BookingForm";
+import { FlyerShowcase } from "@/components/event/FlyerShowcase";
 
 export function LandingPage() {
   const [selected, setSelected] = useState<TicketTier | null>(null);
+  const [closed, setClosed] = useState(false);
   const cardsRef = useRef<HTMLDivElement | null>(null);
   const ctaRef = useRef<HTMLDivElement | null>(null);
+
+  // Evaluate the booking deadline on the client so the page can be statically
+  // prerendered; the server re-checks inside createBooking anyway.
+  useEffect(() => {
+    setClosed(isBookingClosed());
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -71,6 +79,12 @@ export function LandingPage() {
           <UniversityLogos />
           <nav className="flex items-center gap-4 text-xs sm:text-sm">
             <Link
+              href="/board"
+              className="font-condensed uppercase tracking-widest text-muted-foreground hover:text-gold transition-colors"
+            >
+              The wall
+            </Link>
+            <Link
               href="/message"
               className="font-condensed uppercase tracking-widest text-muted-foreground hover:text-gold transition-colors"
             >
@@ -81,43 +95,68 @@ export function LandingPage() {
 
         {/* HERO */}
         <section className="mx-auto max-w-7xl px-4 pt-8 pb-20 sm:px-6 sm:pt-16 sm:pb-28 lg:px-8">
-          <div
-            data-stagger-in
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--color-red-spot)]/40 bg-[var(--color-red-spot)]/10 px-3 py-1 text-[11px] font-condensed uppercase tracking-widest text-[oklch(0.85_0.16_30)]"
-          >
-            <Sparkles className="h-3 w-3" />
-            Faculty of Engineering & Technology
-          </div>
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div>
+              <div
+                data-stagger-in
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-red-spot)]/40 bg-[var(--color-red-spot)]/10 px-3 py-1 text-[11px] font-condensed uppercase tracking-widest text-[oklch(0.85_0.16_30)]"
+              >
+                <Sparkles className="h-3 w-3" />
+                Faculty of Engineering & Technology
+              </div>
 
-          <SplitHeadline className="mt-5 font-display text-[15vw] sm:text-[12vw] lg:text-[9rem] leading-[0.85] text-gradient-gold">
-            {EVENT.name}
-          </SplitHeadline>
+              <SplitHeadline className="mt-5 font-display text-[15vw] sm:text-[12vw] lg:text-[7.5rem] leading-[0.85] text-gradient-gold">
+                {EVENT.name}
+              </SplitHeadline>
 
-          <p data-stagger-in className="mt-4 font-script text-3xl sm:text-5xl text-gold">
-            {EVENT.tagline}
-          </p>
+              <p data-stagger-in className="mt-4 font-script text-3xl sm:text-5xl text-gold">
+                {EVENT.tagline}
+              </p>
 
-          <div data-stagger-in className="mt-8 flex flex-wrap gap-2 sm:gap-3">
-            <EventBadge icon={<MapPin className="h-4 w-4" />} label={EVENT.venue} />
-            <EventBadge icon={<Calendar className="h-4 w-4" />} label={EVENT.date} />
-            <EventBadge icon={<Clock className="h-4 w-4" />} label={EVENT.time} />
-          </div>
+              <div data-stagger-in className="mt-8 flex flex-wrap gap-2 sm:gap-3">
+                <EventBadge icon={<MapPin className="h-4 w-4" />} label={EVENT.venue} />
+                <EventBadge icon={<Calendar className="h-4 w-4" />} label={EVENT.date} />
+                <EventBadge icon={<Clock className="h-4 w-4" />} label={EVENT.time} />
+                <EventBadge
+                  icon={<Shirt className="h-4 w-4" />}
+                  label={`Dress code: ${EVENT.dressCode}`}
+                />
+              </div>
 
-          <div data-stagger-in className="mt-10">
-            <div className="text-[10px] font-condensed uppercase tracking-[0.3em] text-muted-foreground mb-3">
-              Doors open in
+              <div data-stagger-in className="mt-10">
+                <div className="text-[10px] font-condensed uppercase tracking-[0.3em] text-muted-foreground mb-3">
+                  Doors open in
+                </div>
+                <FlipClock targetISO={EVENT.dateISO} />
+                <p className="mt-3 text-xs font-condensed uppercase tracking-widest text-muted-foreground">
+                  {closed ? (
+                    <span className="text-[oklch(0.85_0.16_30)]">
+                      Online booking closed on {EVENT.bookingDeadlineLabel}
+                    </span>
+                  ) : (
+                    <>
+                      Online booking closes{" "}
+                      <span className="text-gold">{EVENT.bookingDeadlineLabel}</span>
+                    </>
+                  )}
+                </p>
+              </div>
+
+              <p
+                data-stagger-in
+                className="mt-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed"
+              >
+                One unforgettable evening of black tie elegance, the Mister & Miss FET pageant, fine
+                dining and live entertainment — hosted by the University of Buea's Faculty of
+                Engineering & Technology.
+              </p>
             </div>
-            <FlipClock targetISO={EVENT.dateISO} />
-          </div>
 
-          <p
-            data-stagger-in
-            className="mt-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed"
-          >
-            One unforgettable evening of black tie elegance, the Mister & Miss FET pageant, fine
-            dining and live entertainment — hosted by the University of Buea's Faculty of
-            Engineering & Technology.
-          </p>
+            {/* Flyer artwork — desktop only; the left column carries mobile */}
+            <div className="hidden lg:flex justify-center pt-6">
+              <FlyerShowcase />
+            </div>
+          </div>
         </section>
 
         {/* TIERS */}
@@ -140,7 +179,7 @@ export function LandingPage() {
                 key={tier}
                 tier={tier}
                 selected={selected === tier}
-                onSelect={(t) => setSelected(t)}
+                onSelect={closed ? undefined : (t) => setSelected(t)}
               />
             ))}
           </div>
@@ -148,7 +187,18 @@ export function LandingPage() {
 
         {/* BOOKING */}
         <section ref={ctaRef} className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
-          {selected ? (
+          {closed ? (
+            <div className="rounded-2xl border border-[var(--color-red-spot)]/40 bg-[var(--color-red-spot)]/10 p-8 text-center">
+              <Lock className="mx-auto h-8 w-8 text-[oklch(0.85_0.16_30)]" />
+              <div className="mt-3 font-display text-3xl text-foreground">
+                Online booking has closed
+              </div>
+              <p className="mt-2 text-muted-foreground">
+                Reservations ended on {EVENT.bookingDeadlineLabel}. For last-minute seats, call{" "}
+                {EVENT.contact}.
+              </p>
+            </div>
+          ) : selected ? (
             <BookingForm tier={selected} onCancel={() => setSelected(null)} />
           ) : (
             <div className="rounded-2xl border border-dashed border-border bg-card/40 p-8 text-center">

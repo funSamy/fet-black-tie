@@ -74,10 +74,10 @@ export function TicketCard({ tier, selected, onSelect }: Props) {
 
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <div className="font-condensed text-2xl uppercase tracking-wide text-foreground">
+            <div className="font-condensed text-3xl sm:text-4xl uppercase tracking-wide text-foreground">
               {label}
             </div>
-            <div className="text-xs text-muted-foreground">{TIER_DESCRIPTION[tier]}</div>
+            <div className="mt-1 text-sm text-muted-foreground">{TIER_DESCRIPTION[tier]}</div>
           </div>
           <div className="text-right">
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Total</div>

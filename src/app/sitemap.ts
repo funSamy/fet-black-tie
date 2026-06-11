@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-
-const BASE_URL = "https://blacktie-sparkle.lovable.app";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: `${BASE_URL}/`, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${BASE_URL}/message`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${SITE_URL}/message`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/board`, changeFrequency: "daily", priority: 0.5 },
   ];
 }

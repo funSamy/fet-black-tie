@@ -4,9 +4,17 @@ import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
 import { prisma } from "@/lib/server/db";
 import { initiatePayment } from "@/lib/server/fapshi";
-import { TIER_PRICE, TIER_LABEL, type TicketTier } from "@/lib/event";
+import { EVENT, TIER_PRICE, TIER_LABEL, isBookingClosed, type TicketTier } from "@/lib/event";
 
-const TierEnum = z.enum(["CLASSIC", "CLASSIC_COUPLE", "VIP", "VIP_COUPLE", "TABLE_OF_5"]);
+const TierEnum = z.enum([
+  "CLASSIC",
+  "CLASSIC_COUPLE",
+  "VIP",
+  "VIP_COUPLE",
+  "TABLE_OF_5",
+  "TABLE_OF_5_VIP",
+  "TABLE_OF_10",
+]);
 
 const BookingSchema = z.object({
   buyerName: z.string().trim().min(2).max(100),
@@ -30,6 +38,13 @@ export async function createBooking(input: {
   tier: TicketTier;
   origin?: string;
 }): Promise<CreateBookingResult> {
+  if (isBookingClosed()) {
+    return {
+      ok: false,
+      error: `Online booking closed on ${EVENT.bookingDeadlineLabel}. Tickets may still be available at the door.`,
+    };
+  }
+
   const parsed = BookingSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid booking details" };
@@ -119,5 +134,41 @@ export async function getOrderStatus(input: { orderId: string }): Promise<OrderS
     ...order,
     tier: order.tier as TicketTier,
     tickets,
+  };
+}
+
+// Public, read-only ticket lookup for the /checkin/<slug> page that the QR
+// code points to. Never consumes a slot — only gatekeepers' scans burn slots.
+export interface TicketStatusData {
+  buyerName: string;
+  tier: TicketTier;
+  slotsTotal: number;
+  slotsUsed: number;
+  isFullyUsed: boolean;
+  orderPaid: boolean;
+}
+
+export async function getTicketStatus(input: { slug: string }): Promise<TicketStatusData | null> {
+  const slug = z.string().trim().min(8).max(200).safeParse(input.slug);
+  if (!slug.success) return null;
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { qrSlug: slug.data },
+    select: {
+      slotsTotal: true,
+      slotsUsed: true,
+      isFullyUsed: true,
+      order: { select: { buyerName: true, tier: true, status: true } },
+    },
+  });
+  if (!ticket) return null;
+
+  return {
+    buyerName: ticket.order.buyerName,
+    tier: ticket.order.tier as TicketTier,
+    slotsTotal: ticket.slotsTotal,
+    slotsUsed: ticket.slotsUsed,
+    isFullyUsed: ticket.isFullyUsed,
+    orderPaid: ticket.order.status === "SUCCESSFUL",
   };
 }

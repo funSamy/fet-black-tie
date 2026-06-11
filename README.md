@@ -1,19 +1,27 @@
 # FET Black Tie Event
 
-The Night of Excellence — ticket sales and door check-in for the University of
-Buea Faculty of Engineering & Technology Black Tie Gala (4 July 2026, The
-Millennium Hall).
+The Night of Excellence — ticket sales, shout-out wall and door check-in for the
+University of Buea Faculty of Engineering & Technology Black Tie Gala
+(4 July 2026, Amelia Apart Hotel, Bokwai-Buea).
 
 Built with **Next.js (App Router)**, **Prisma 7**, and **PostgreSQL**.
 Payments are collected through **Fapshi** (MTN Mobile Money / Orange Money).
 
 ## Features
 
-- Landing page with ticket tiers (Classic, Classic Couple, VIP, VIP Couple, Table of 5), countdown and animated hero
-- Booking flow: server-priced orders → Fapshi payment link → confirmation page with entry QR code + WhatsApp share
+- Landing page with the event flyer, countdown and 7 ticket tiers (Classic 5K →
+  Table of 10 100K); online booking closes automatically on the deadline
+- Booking flow: server-priced orders → Fapshi payment link → confirmation page
+  with entry QR code + WhatsApp share (QR links to a public `/checkin/<slug>`
+  validity page — viewing never consumes entries)
 - Fapshi webhook + reconciliation endpoint to finalize payments and issue tickets
-- Anonymous "shout-out" messages (moderated before projection)
-- Staff area (`/auth`, `/admin`): email + password accounts with `admin` / `scanner` roles, orders dashboard, mark-paid, and a camera QR scanner that atomically burns entry slots
+- Shout-outs: anonymous messages from `/message`, admin review queue, and a live
+  public wall at `/board` made to be projected at the gala
+- Staff area (`/auth`, `/admin`):
+  - **Admins** — orders dashboard (stats, filters, mark-paid), shout-out
+    moderation, and gatekeeper account management
+  - **Gatekeepers** — created by an admin in one click; they sign in and land
+    straight on the camera QR scanner, which atomically burns entry slots
 
 ## Getting started
 
@@ -33,6 +41,7 @@ Payments are collected through **Fapshi** (MTN Mobile Money / Orange Money).
    | `FAPSHI_BASE_URL`                    | `https://sandbox.fapshi.com` or `https://live.fapshi.com`            |
    | `FAPSHI_API_USER` / `FAPSHI_API_KEY` | Fapshi API credentials                                               |
    | `FAPSHI_WEBHOOK_SECRET`              | Shared secret checked against the `x-wh-secret` webhook header       |
+   | `NEXT_PUBLIC_SITE_URL`               | Public URL used for canonical/OG links and the sitemap (optional)    |
 
 3. **Create the database schema**:
 
@@ -47,12 +56,8 @@ Payments are collected through **Fapshi** (MTN Mobile Money / Orange Money).
    SEED_ADMIN_EMAIL=you@example.com SEED_ADMIN_PASSWORD=changeme123 bun run db:seed
    ```
 
-   Additional staff can sign up at `/auth`; grant them roles with SQL:
-
-   ```sql
-   INSERT INTO user_roles (user_id, role)
-   SELECT id, 'scanner' FROM users WHERE email = 'door@example.com';
-   ```
+   Gatekeeper accounts are then created from **Admin → Gatekeepers** — no SQL
+   needed.
 
 5. **Run it**:
 
@@ -60,6 +65,22 @@ Payments are collected through **Fapshi** (MTN Mobile Money / Orange Money).
    bun run dev            # http://localhost:3000
    bun run build && bun run start   # production
    ```
+
+## Brand assets
+
+Fonts (Bebas Neue, Anton, Pinyon Script, DM Sans) are self-hosted via
+`@fontsource` packages — no external font dependency.
+
+Image assets load from `public/` with styled fallbacks until the files exist:
+
+- `public/logos/ub-logo.png`, `fet-logo.png`, `fetsa-logo.png` — the three crests
+- `public/flyer.jpg` — official event flyer shown on the landing hero
+
+## Event configuration
+
+Tier prices/labels/guest counts, venue, contact, and the booking deadline all
+live in `src/lib/event.ts` (tier additions also need the `TicketTier` enum in
+`prisma/schema.prisma` + a migration).
 
 ## Payment finalization
 
@@ -74,9 +95,9 @@ Payments are collected through **Fapshi** (MTN Mobile Money / Orange Money).
 ```
 prisma/                  Prisma 7 schema, migrations, seed script
 src/app/                 Next.js App Router pages + API route handlers
-src/components/event/    Event UI (ticket cards, QR, countdown, booking form)
+src/components/event/    Event UI (ticket cards, QR, countdown, flyer, booking)
 src/components/ui/       shadcn/ui components
-src/lib/*.actions.ts     Server Actions (booking, messages, admin, auth)
+src/lib/*.actions.ts     Server Actions (booking, messages, staff, admin, auth)
 src/lib/server/          Server-only modules (Prisma client, sessions, roles,
                          Fapshi client, atomic ticket slot-burn)
 src/generated/prisma/    Generated Prisma client (gitignored, via `prisma generate`)

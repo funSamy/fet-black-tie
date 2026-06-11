@@ -140,6 +140,10 @@ export function BookingForm({ tier, onCancel }: Props) {
       <p className="mt-4 text-center text-xs text-muted-foreground">
         You'll be redirected to Fapshi to pay with MTN Mobile Money or Orange Money.
       </p>
+      <p className="mt-2 text-center text-xs text-[oklch(0.85_0.16_30)]">
+        Heads up: mobile money transaction charges apply — please add the operator fee on top when
+        approving the payment.
+      </p>
     </form>
   );
 }

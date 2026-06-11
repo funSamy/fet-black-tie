@@ -1,0 +1,5 @@
+import { StaffPage } from "./staff-page";
+
+export default function Page() {
+  return <StaffPage />;
+}

@@ -17,6 +17,8 @@ enum TicketTier {
   VIP
   VIP_COUPLE
   TABLE_OF_5
+  TABLE_OF_5_VIP
+  TABLE_OF_10
 
   @@map("ticket_tier")
 }
