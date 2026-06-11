@@ -5,6 +5,10 @@ import { getPaymentStatus } from "@/lib/server/fapshi";
 import { ensureTicketForOrder } from "@/lib/server/tickets";
 import { type TicketTier } from "@/lib/event";
 
+// Up to 50 sequential Fapshi lookups — allow more than the serverless
+// default execution window (Vercel Hobby caps at 60s).
+export const maxDuration = 60;
+
 export async function POST() {
   // Pull PENDING orders from the last 24h that have a fapshi_trans_id
   const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);

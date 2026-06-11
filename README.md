@@ -90,6 +90,33 @@ live in `src/lib/event.ts` (tier additions also need the `TicketTier` enum in
   scheduler) — it re-queries pending orders against Fapshi and issues tickets
   for payments whose webhook was missed.
 
+## Deploying to Vercel
+
+1. Import the repo as a new Vercel project (framework: Next.js, defaults are
+   fine — `postinstall` generates the Prisma client during install).
+2. Set the env vars from the table above. Use a **pooled** Postgres connection
+   string (Neon / Supabase pooler) for `DATABASE_URL` — serverless functions
+   open many short-lived connections.
+3. Apply migrations against the production database from your machine:
+   `DATABASE_URL=... bun run db:deploy` (and `bun run db:seed` once for the
+   first admin).
+4. **Cron caveat:** Vercel Hobby cron jobs run at most once per day, which is
+   too slow for payment reconciliation. Trigger
+   `POST /api/public/cron/reconcile` every 5 minutes from a free external
+   scheduler (e.g. cron-job.org) instead.
+
+## CI / dependency automation
+
+- `.github/workflows/ci.yml` — lint + production build (Bun) on every push to
+  `main` and every PR.
+- `.github/dependabot.yml` — weekly dependency PRs (bun + GitHub Actions);
+  minor/patch updates arrive grouped.
+- `.github/workflows/dependabot-auto-merge.yml` — auto-merges Dependabot
+  minor/patch PRs once checks pass; major bumps only get a "review me"
+  comment. One-time repo setup required: enable **Settings → General → Allow
+  auto-merge**, and add a branch protection rule on `main` requiring the
+  "Lint & build" check (otherwise auto-merge won't wait for CI).
+
 ## Project layout
 
 ```

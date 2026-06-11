@@ -9,7 +9,7 @@ export const EVENT = {
   dateISO: "2026-07-04T18:00:00",
   venue: "Amelia Apart Hotel, Bokwai-Buea",
   dressCode: "Corporate",
-  contact: "676 658 443",
+  contact: "693 463 994",
   currency: "XAF",
   // Online booking closes at the end of 30 June 2026 (Cameroon time, UTC+1).
   bookingDeadlineISO: "2026-06-30T23:59:59+01:00",

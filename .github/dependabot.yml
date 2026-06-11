@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # App dependencies (bun.lock). Minor + patch updates arrive grouped in a
+  # single weekly PR, which the auto-merge workflow merges once CI is green.
+  # Major updates come as individual PRs and only get a warning comment.
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types: ["minor", "patch"]
+
+  # Keep the GitHub Actions used by the workflows current.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
