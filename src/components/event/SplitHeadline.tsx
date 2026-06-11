@@ -42,18 +42,9 @@ export function SplitHeadline({ children, className = "" }: Props) {
 
   const words = children.split(" ");
   return (
-    <h1
-      ref={ref}
-      className={className}
-      style={{ perspective: "800px" }}
-      aria-label={children}
-    >
+    <h1 ref={ref} className={className} style={{ perspective: "800px" }} aria-label={children}>
       {words.map((word, wi) => (
-        <span
-          key={wi}
-          className="inline-block whitespace-nowrap"
-          aria-hidden
-        >
+        <span key={wi} className="inline-block whitespace-nowrap" aria-hidden>
           {Array.from(word).map((ch, ci) => (
             <span
               key={ci}

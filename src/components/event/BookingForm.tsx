@@ -1,20 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createBooking } from "@/lib/booking.functions";
-import {
-  TIER_LABEL,
-  TIER_PRICE,
-  TIER_DESCRIPTION,
-  formatXAF,
-  type TicketTier,
-} from "@/lib/event";
+import { createBooking } from "@/lib/booking.actions";
+import { TIER_LABEL, TIER_PRICE, TIER_DESCRIPTION, formatXAF, type TicketTier } from "@/lib/event";
 
 interface Props {
   tier: TicketTier;
@@ -22,8 +15,7 @@ interface Props {
 }
 
 export function BookingForm({ tier, onCancel }: Props) {
-  const navigate = useNavigate();
-  const book = useServerFn(createBooking);
+  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
     buyerName: "",
@@ -35,18 +27,17 @@ export function BookingForm({ tier, onCancel }: Props) {
     e.preventDefault();
     setBusy(true);
     try {
-      const res = await book({
-        data: {
-          ...form,
-          tier,
-          origin: typeof window !== "undefined" ? window.location.origin : undefined,
-        },
+      const res = await createBooking({
+        ...form,
+        tier,
+        origin: typeof window !== "undefined" ? window.location.origin : undefined,
       });
+      if (!res.ok) throw new Error(res.error);
       if (res.paymentLink) {
         // Send the user to Fapshi to complete the payment
         window.location.href = res.paymentLink;
       } else {
-        navigate({ to: "/confirmation/$orderId", params: { orderId: res.orderId } });
+        router.push(`/confirmation/${res.orderId}`);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Booking failed";
@@ -67,17 +58,11 @@ export function BookingForm({ tier, onCancel }: Props) {
           <div className="font-display text-3xl text-gradient-gold leading-none">
             {TIER_LABEL[tier]}
           </div>
-          <div className="mt-1 text-sm text-muted-foreground">
-            {TIER_DESCRIPTION[tier]}
-          </div>
+          <div className="mt-1 text-sm text-muted-foreground">{TIER_DESCRIPTION[tier]}</div>
         </div>
         <div className="text-right">
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            Total
-          </div>
-          <div className="font-display text-3xl text-gold">
-            {formatXAF(TIER_PRICE[tier])}
-          </div>
+          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Total</div>
+          <div className="font-display text-3xl text-gold">{formatXAF(TIER_PRICE[tier])}</div>
         </div>
       </div>
 

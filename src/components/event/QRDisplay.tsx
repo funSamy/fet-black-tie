@@ -33,18 +33,9 @@ export function QRDisplay({ value, size = 240 }: Props) {
       style={{ animation: "scale-in 0.5s ease-out" }}
     >
       {dataUrl ? (
-        <img
-          src={dataUrl}
-          alt="Your ticket QR code"
-          width={size}
-          height={size}
-          className="block"
-        />
+        <img src={dataUrl} alt="Your ticket QR code" width={size} height={size} className="block" />
       ) : (
-        <div
-          style={{ width: size, height: size }}
-          className="animate-pulse rounded bg-muted"
-        />
+        <div style={{ width: size, height: size }} className="animate-pulse rounded bg-muted" />
       )}
     </div>
   );

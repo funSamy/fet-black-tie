@@ -6,7 +6,10 @@ interface Props {
 // Kept inline-SVG so they tint with the gold palette.
 export function UniversityLogos({ className = "" }: Props) {
   return (
-    <div className={`flex items-center gap-2 ${className}`} aria-label="University of Buea — Faculty of Engineering & Technology">
+    <div
+      className={`flex items-center gap-2 ${className}`}
+      aria-label="University of Buea — Faculty of Engineering & Technology"
+    >
       {[0, 1, 2].map((i) => (
         <div
           key={i}

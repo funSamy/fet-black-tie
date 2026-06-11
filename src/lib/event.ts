@@ -12,12 +12,7 @@ export const EVENT = {
   currency: "XAF",
 } as const;
 
-export type TicketTier =
-  | "CLASSIC"
-  | "CLASSIC_COUPLE"
-  | "VIP"
-  | "VIP_COUPLE"
-  | "TABLE_OF_5";
+export type TicketTier = "CLASSIC" | "CLASSIC_COUPLE" | "VIP" | "VIP_COUPLE" | "TABLE_OF_5";
 
 export const TIER_PRICE: Record<TicketTier, number> = {
   CLASSIC: 5000,
