@@ -1,0 +1,51 @@
+name: Dependabot auto-merge
+
+# Auto-merges Dependabot PRs for minor/patch updates once required checks pass;
+# major updates only receive a review-me comment.
+#
+# Repo settings this relies on (one-time setup):
+#   1. Settings → General → "Allow auto-merge" must be enabled.
+#   2. A branch protection rule / ruleset on `main` requiring the
+#      "Lint & build" check — auto-merge waits for it; without a required
+#      check the merge happens immediately.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Enable auto-merge for minor & patch updates
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on major updates
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-major' &&
+          github.event.action == 'opened'
+        run: gh pr comment "$PR_URL" --body "$BODY"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: |
+            ⚠️ **Major version update — not auto-merged.**
+
+            `${{ steps.metadata.outputs.dependency-names }}` is jumping a major version (`${{ steps.metadata.outputs.previous-version }}` → `${{ steps.metadata.outputs.new-version }}`). Major releases can contain breaking changes, so this PR waits for a human review: check the package's release notes / migration guide, verify CI is green, then merge manually.

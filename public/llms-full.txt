@@ -1,0 +1,186 @@
+# FET Black Tie Event — Full Documentation
+
+> The Night of Excellence — University of Buea Faculty of Engineering & Technology Black Tie Gala on 4 July 2026 at Amelia Apart Hotel, Bokwai-Buea.
+
+---
+
+## 1. Overview
+
+The FET Black Tie Event is a formal gala organised by the University of Buea's Faculty of Engineering & Technology (FET). It is the faculty's flagship social event, bringing together students, alumni, faculty members, and distinguished guests for an evening of celebration, networking, live entertainment, and fine dining.
+
+The event is managed through a modern web application that handles ticket sales, payment processing, QR-based check-in, and a real-time digital shout-out wall.
+
+---
+
+## 2. Event Details
+
+- **Name:** FET Black Tie Event
+- **Tagline:** The Night of Excellence
+- **Date:** 4 July 2026
+- **Time:** 6:00 PM (WAT / UTC+1)
+- **Venue:** Amelia Apart Hotel, Bokwai-Buea, Cameroon
+- **Dress Code:** Corporate
+- **Organiser:** University of Buea — Faculty of Engineering & Technology
+- **Contact:** 676 658 443
+- **Website:** https://fet-black-tie.mybrainboostapp.com
+
+---
+
+## 3. Ticket Tiers & Pricing
+
+All prices are in XAF (Central African CFA franc).
+
+| Tier             | Price    | Seats | Category |
+|------------------|----------|-------|----------|
+| Classic          | 5,000    | 1     | Standard |
+| Classic Couple   | 9,000    | 2     | Standard |
+| VIP Classic      | 10,000   | 1     | VIP      |
+| VIP Couple       | 18,000   | 2     | VIP      |
+| Table of 5       | 30,000   | 5     | Table    |
+| Table of 5 VIP   | 50,000   | 5     | Table    |
+| Table of 10      | 100,000  | 10    | Table    |
+
+**Booking deadline:** 30 June 2026, 11:59 PM (WAT). Online booking closes automatically after this date.
+
+**Payment:** Processed via Fapshi, supporting Mobile Money (MTN) and Orange Money.
+
+---
+
+## 4. Application Pages
+
+### 4.1 Home Page (`/`)
+The main landing page featuring:
+- Hero section with event branding and tagline
+- Live countdown timer to the event date
+- Event details (date, time, venue, dress code)
+- Ticket tier cards with pricing
+- Booking form for ticket reservation
+- University and faculty logos
+
+### 4.2 Send a Shout-out (`/message`)
+A form where anyone can submit an anonymous message (shout-out) to be displayed on the live wall during the event. Messages are moderated by staff before appearing.
+
+### 4.3 The Wall (`/board`)
+A real-time display board that projects approved shout-outs during the gala. Messages cycle automatically and are designed for projection on large screens.
+
+### 4.4 Ticket Confirmation (`/confirmation/[orderId]`)
+Shown after a successful booking. Displays the ticket details, QR code, and confirmation of the reservation. This is a per-user dynamic page.
+
+### 4.5 Ticket Check (`/checkin/[slug]`)
+A read-only page linked from each ticket's QR code. Shows the ticket's validity status (paid, used, unknown) without consuming entry slots. Used by guests to verify their ticket.
+
+### 4.6 Staff Sign-in (`/auth`)
+Authentication page for event staff. Only staff members with valid credentials can access admin features.
+
+### 4.7 Admin Dashboard (`/admin`)
+Protected area for event organisers:
+- **Orders** (`/admin`): View and manage all ticket bookings
+- **Staff** (`/admin/staff`): Manage staff accounts and permissions
+- **Messages** (`/admin/messages`): Moderate shout-out submissions (approve/reject)
+- **Scan** (`/admin/scan`): QR code scanner for door entry — burns ticket slots upon scan
+
+---
+
+## 5. Technical Architecture
+
+### 5.1 Stack
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS with custom design tokens
+- **UI Components:** shadcn/ui
+- **Database:** PostgreSQL via Prisma ORM
+- **Authentication:** Custom staff auth
+- **Payment:** Fapshi API (Mobile Money / Orange Money)
+- **Deployment:** Lovable platform (fet-black-tie.lovable.app)
+
+### 5.2 Key Design Tokens
+- Primary background: `#0A0A0E` (near-black)
+- Accent: Gold (`var(--color-gold)`)
+- Typography: Bebas Neue (display), Anton (headlines), Pinyon Script (script), DM Sans (body)
+
+### 5.3 Database Models (Prisma)
+- **Order**: Represents a ticket purchase (buyer name, phone, tier, payment status)
+- **Ticket**: Individual entry passes linked to an order (unique slug, QR code, usage status)
+- **Message**: Shout-out submissions (content, approval status, timestamps)
+- **Staff**: Admin/staff user accounts
+
+### 5.4 API Routes
+- `POST /api/public/webhooks/fapshi`: Payment webhook from Fapshi — updates order payment status
+- `GET /api/public/cron/reconcile`: Cron endpoint to reconcile pending payments
+
+### 5.5 SEO & Discoverability
+- **robots.ts**: Next.js metadata API — allows public pages, blocks admin/auth/dynamic routes
+- **sitemap.ts**: XML sitemap listing the 3 public pages with priorities
+- **Metadata**: Per-page title, description, OpenGraph, and Twitter Card tags
+- **llms.txt**: Structured summary for AI/LLM crawlers
+- **llms-full.txt**: Comprehensive documentation for AI systems
+
+---
+
+## 6. User Flows
+
+### 6.1 Ticket Booking Flow
+1. Visitor lands on homepage (`/`)
+2. Reviews event details and ticket tiers
+3. Fills in the booking form (name, phone, tier selection)
+4. Submits the form — an order is created in the database
+5. Payment is initiated via Fapshi (Mobile Money prompt)
+6. On successful payment, the webhook confirms the order
+7. User is redirected to confirmation page (`/confirmation/[orderId]`)
+8. A QR code is generated linking to `/checkin/[slug]`
+
+### 6.2 Event Entry Flow
+1. Guest presents their QR code (printed or on phone) at the door
+2. Staff opens the scanner (`/admin/scan`)
+3. Scanner reads the QR code and navigates to `/checkin/[slug]`
+4. Staff verifies the ticket status (paid, not yet used)
+5. Upon entry, the scanner "burns" a slot — marking the ticket as used
+6. For table bookings, multiple scans are needed (one per seat)
+
+### 6.3 Shout-out Flow
+1. Anyone visits `/message`
+2. Writes an anonymous shout-out message
+3. Submits the form — message enters the moderation queue
+4. Staff reviews messages in `/admin/messages`
+5. Approved messages appear on `/board` in real-time
+6. The wall is projected on screens during the event
+
+---
+
+## 7. Content & Branding
+
+### 7.1 Voice & Tone
+- Formal yet celebratory — befitting a black-tie gala
+- Emphasises prestige, excellence, and community
+- Uses gold imagery and luxury motifs
+
+### 7.2 Key Phrases
+- "The Night of Excellence"
+- "Reserve your seat"
+- "University of Buea — Faculty of Engineering & Technology"
+
+### 7.3 Fonts
+- **Bebas Neue**: Display headings (event name, hero)
+- **Anton**: Secondary headlines
+- **Pinyon Script**: Decorative script accents
+- **DM Sans**: Body text (400, 500, 600, 700 weights)
+
+---
+
+## 8. Contact & Support
+
+For questions about the event or ticket issues:
+- **Phone:** 676 658 443
+- **Organiser:** University of Buea — Faculty of Engineering & Technology
+- **Venue:** Amelia Apart Hotel, Bokwai-Buea, Cameroon
+
+---
+
+## 9. Links
+
+- **Website:** https://fet-black-tie.mybrainboostapp.com
+- **Send a shout-out:** https://fet-black-tie.mybrainboostapp.com/message
+- **The Wall:** https://fet-black-tie.mybrainboostapp.com/board
+- **Sitemap:** https://fet-black-tie.mybrainboostapp.com/sitemap.xml
+- **robots.txt:** https://fet-black-tie.mybrainboostapp.com/robots.txt
+- **llms.txt:** https://fet-black-tie.mybrainboostapp.com/llms.txt

@@ -54,9 +54,7 @@ export function TicketCard({ tier, selected, onSelect }: Props) {
           <h3 className="font-display text-3xl sm:text-4xl text-gradient-gold leading-none">
             {EVENT.name}
           </h3>
-          <p className="mt-1 font-script text-lg sm:text-xl text-gold">
-            {EVENT.tagline}
-          </p>
+          <p className="mt-1 font-script text-lg sm:text-xl text-gold">{EVENT.tagline}</p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2 text-[11px] sm:text-xs font-condensed uppercase tracking-wider">
@@ -76,30 +74,20 @@ export function TicketCard({ tier, selected, onSelect }: Props) {
 
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <div className="font-condensed text-2xl uppercase tracking-wide text-foreground">
+            <div className="font-condensed text-3xl sm:text-4xl uppercase tracking-wide text-foreground">
               {label}
             </div>
-            <div className="text-xs text-muted-foreground">
-              {TIER_DESCRIPTION[tier]}
-            </div>
+            <div className="mt-1 text-sm text-muted-foreground">{TIER_DESCRIPTION[tier]}</div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              Total
-            </div>
-            <div className="font-display text-2xl text-gold">
-              {formatXAF(TIER_PRICE[tier])}
-            </div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Total</div>
+            <div className="font-display text-2xl text-gold">{formatXAF(TIER_PRICE[tier])}</div>
           </div>
         </div>
       </div>
 
       {/* Tear-off stub */}
-      <StubTag
-        color={TIER_STUB_COLOR[tier]}
-        priceLabel={TIER_STUB_LABEL[tier]}
-        tierLabel={label}
-      />
+      <StubTag color={TIER_STUB_COLOR[tier]} priceLabel={TIER_STUB_LABEL[tier]} tierLabel={label} />
     </button>
   );
 }

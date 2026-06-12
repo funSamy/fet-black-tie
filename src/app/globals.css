@@ -1,0 +1,152 @@
+@import "tailwindcss" source(none);
+@source "../../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* FET Black Tie — design tokens lifted from physical tickets & Miss FET flyer */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-red-spot: var(--red-spot);
+  --color-stub-yellow: var(--stub-yellow);
+  --color-stub-green: var(--stub-green);
+  --color-stub-vip: var(--stub-vip);
+  --color-surface-2: var(--surface-2);
+
+  --font-display: "Bebas Neue", Impact, sans-serif;
+  --font-condensed: "Anton", Impact, sans-serif;
+  --font-script: "Pinyon Script", "Brush Script MT", cursive;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.13 0.012 270); /* #0A0A0E near-black */
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.16 0.012 270); /* #12121A */
+  --card-foreground: oklch(1 0 0);
+  --surface-2: oklch(0.21 0.014 270); /* #1C1C28 */
+  --popover: oklch(0.16 0.012 270);
+  --popover-foreground: oklch(1 0 0);
+
+  --primary: oklch(0.78 0.16 84); /* gold #E8AF0F */
+  --primary-foreground: oklch(0.13 0.012 270);
+  --gold: oklch(0.78 0.16 84);
+  --gold-light: oklch(0.88 0.17 92); /* #FFD700 */
+  --gold-dark: oklch(0.62 0.14 78); /* #B8860B */
+
+  --red-spot: oklch(0.55 0.22 28); /* #C9280E */
+
+  --stub-yellow: oklch(0.83 0.16 90);
+  --stub-green: oklch(0.6 0.18 145);
+  --stub-vip: oklch(0.55 0.24 295); /* luxury purple */
+
+  --secondary: oklch(0.21 0.014 270);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.21 0.014 270);
+  --muted-foreground: oklch(0.68 0.02 270);
+  --accent: oklch(0.78 0.16 84);
+  --accent-foreground: oklch(0.13 0.012 270);
+  --destructive: oklch(0.62 0.24 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.27 0.018 270); /* #2A2A3A */
+  --input: oklch(0.21 0.014 270);
+  --ring: oklch(0.78 0.16 84);
+}
+
+.dark {
+  /* Site is dark-by-default; keep parity */
+  --background: oklch(0.13 0.012 270);
+  --foreground: oklch(1 0 0);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-image:
+      radial-gradient(ellipse at top, oklch(0.18 0.03 84 / 0.12), transparent 60%),
+      radial-gradient(ellipse at bottom right, oklch(0.4 0.18 28 / 0.08), transparent 50%);
+    min-height: 100vh;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-background);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+  .font-condensed {
+    font-family: var(--font-condensed);
+  }
+  .font-script {
+    font-family: var(--font-script);
+  }
+  .text-gold {
+    color: var(--color-gold);
+  }
+  .bg-gold {
+    background-color: var(--color-gold);
+  }
+  .text-gradient-gold {
+    background: linear-gradient(
+      135deg,
+      var(--color-gold-light) 0%,
+      var(--color-gold) 50%,
+      var(--color-gold-dark) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .shadow-gold {
+    box-shadow: 0 8px 32px -8px oklch(0.78 0.16 84 / 0.4);
+  }
+  .ring-gold {
+    box-shadow:
+      0 0 0 1px var(--color-gold),
+      0 0 32px -4px oklch(0.78 0.16 84 / 0.3);
+  }
+}

@@ -1,0 +1,124 @@
+// Prisma 7 schema — mirrors the original Supabase SQL schema 1:1
+// (table/column/enum names preserved via @map/@@map so existing data
+// can be imported with a plain SQL dump if needed).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TicketTier {
+  CLASSIC
+  CLASSIC_COUPLE
+  VIP
+  VIP_COUPLE
+  TABLE_OF_5
+  TABLE_OF_5_VIP
+  TABLE_OF_10
+
+  @@map("ticket_tier")
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  EXPIRED
+
+  @@map("order_status")
+}
+
+enum MessageStatus {
+  PENDING
+  APPROVED
+  DELETED
+
+  @@map("message_status")
+}
+
+enum AppRole {
+  admin
+  scanner
+
+  @@map("app_role")
+}
+
+model Order {
+  id                String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  externalId        String      @unique @map("external_id")
+  fapshiTransId     String?     @unique @map("fapshi_trans_id")
+  fapshiPaymentLink String?     @map("fapshi_payment_link")
+  buyerName         String      @map("buyer_name")
+  userEmail         String      @map("user_email")
+  phoneNumber       String      @map("phone_number")
+  tier              TicketTier
+  amount            Int
+  paidAmount        Int?        @map("paid_amount")
+  revenue           Int?
+  status            OrderStatus @default(PENDING)
+  medium            String?
+  payerName         String?     @map("payer_name")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  tickets           Ticket[]
+
+  @@index([status])
+  @@index([userEmail])
+  @@index([createdAt(sort: Desc)])
+  @@map("orders")
+}
+
+model Ticket {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId     String    @map("order_id") @db.Uuid
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  qrSlug      String    @unique @default(dbgenerated("(gen_random_uuid())::text")) @map("qr_slug")
+  slotsTotal  Int       @map("slots_total")
+  slotsUsed   Int       @default(0) @map("slots_used")
+  isFullyUsed Boolean   @default(false) @map("is_fully_used")
+  firstScanAt DateTime? @map("first_scan_at") @db.Timestamptz(6)
+  lastScanAt  DateTime? @map("last_scan_at") @db.Timestamptz(6)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([orderId])
+  @@map("tickets")
+}
+
+model AnonymousMessage {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content     String
+  status      MessageStatus @default(PENDING)
+  displayName String?       @map("display_name")
+  approvedAt  DateTime?     @map("approved_at") @db.Timestamptz(6)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([status])
+  @@index([createdAt(sort: Desc)])
+  @@map("anonymous_messages")
+}
+
+// Staff accounts (replaces Supabase auth.users for the admin/scanner sign-in).
+model User {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String     @unique
+  passwordHash String     @map("password_hash")
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  roles        UserRole[]
+
+  @@map("users")
+}
+
+model UserRole {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      AppRole
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([userId, role])
+  @@map("user_roles")
+}

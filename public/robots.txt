@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://blacktie-sparkle.lovable.app/sitemap.xml

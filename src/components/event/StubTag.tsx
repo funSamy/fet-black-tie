@@ -7,8 +7,7 @@ interface Props {
 }
 
 const COLOR_MAP: Record<StubColor, string> = {
-  yellow:
-    "bg-[var(--color-stub-yellow)] text-[oklch(0.18_0.05_60)]",
+  yellow: "bg-[var(--color-stub-yellow)] text-[oklch(0.18_0.05_60)]",
   green: "bg-[var(--color-stub-green)] text-[oklch(0.98_0.01_140)]",
   vip: "bg-[var(--color-stub-vip)] text-[oklch(0.98_0.005_295)]",
 };
