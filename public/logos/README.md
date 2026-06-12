@@ -1,13 +1,14 @@
 # Brand assets
 
-Drop the real crest images here (transparent or white-background PNGs work best):
+Crest images for the site header (each slot tries `.png` first, then `.jpg`):
 
-- `ub-logo.png` — University of Buea crest
-- `fet-logo.png` — Faculty of Engineering & Technology crest
-- `fetsa-logo.png` — FET Students' Association crest
+- `ub-logo.png` / `ub-logo.jpg` — University of Buea crest ✓ uploaded
+- `fet-logo.png` / `fet-logo.jpg` — Faculty of Engineering & Technology crest ✓ uploaded
+- `fetsa-logo.png` / `fetsa-logo.jpg` — FET Students' Association crest (pending)
 
-And the official event flyer at `public/flyer.jpg` (portrait orientation) for the
-landing-page hero.
+Every crest is rendered on a white disc inside the gold ring, so dark or
+transparent-background logos stay readable on the site's near-black theme.
 
-Until a file exists, the site shows styled fallbacks (gold shields / a CSS-built
-poster), so missing files never break the layout.
+The official event flyer lives at `public/flyer.jpg` (portrait) and shows on
+the landing-page hero. Missing files never break the layout — styled fallbacks
+render instead.

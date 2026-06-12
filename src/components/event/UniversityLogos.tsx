@@ -2,20 +2,31 @@
 import { useEffect, useRef, useState } from "react";
 
 interface LogoSpec {
-  src: string;
+  candidates: string[];
   alt: string;
   initials: string;
 }
 
-// Real crests are loaded from /public/logos/. Drop in:
-//   public/logos/ub-logo.png    — University of Buea crest
-//   public/logos/fet-logo.png   — Faculty of Engineering & Technology crest
-//   public/logos/fetsa-logo.png — FET Students' Association crest
-// Until a file exists, the gold shield fallback below is shown for that slot.
+// Real crests live in /public/logos/ as ub-logo, fet-logo and fetsa-logo
+// (.png or .jpg both work — each slot tries png first, then jpg, then the
+// gold shield fallback). Dark/transparent crests stay readable because every
+// logo is rendered on a white disc inside the gold ring.
 const LOGOS: LogoSpec[] = [
-  { src: "/logos/ub-logo.png", alt: "University of Buea", initials: "UB" },
-  { src: "/logos/fet-logo.png", alt: "Faculty of Engineering & Technology", initials: "FET" },
-  { src: "/logos/fetsa-logo.png", alt: "FET Students' Association", initials: "UB" },
+  {
+    candidates: ["/logos/ub-logo.png", "/logos/ub-logo.jpg"],
+    alt: "University of Buea",
+    initials: "UB",
+  },
+  {
+    candidates: ["/logos/fet-logo.png", "/logos/fet-logo.jpg"],
+    alt: "Faculty of Engineering & Technology",
+    initials: "FET",
+  },
+  {
+    candidates: ["/logos/fetsa-logo.png", "/logos/fetsa-logo.jpg"],
+    alt: "FET Students' Association",
+    initials: "UB",
+  },
 ];
 
 interface Props {
@@ -29,7 +40,7 @@ export function UniversityLogos({ className = "" }: Props) {
       aria-label="University of Buea — Faculty of Engineering & Technology"
     >
       {LOGOS.map((logo) => (
-        <LogoBadge key={logo.src} logo={logo} />
+        <LogoBadge key={logo.alt} logo={logo} />
       ))}
     </div>
   );
@@ -37,14 +48,17 @@ export function UniversityLogos({ className = "" }: Props) {
 
 function LogoBadge({ logo }: { logo: LogoSpec }) {
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const [missing, setMissing] = useState(false);
+  const [srcIndex, setSrcIndex] = useState(0);
+  const missing = srcIndex >= logo.candidates.length;
 
-  // The crest often 404s before hydration attaches onError, so re-check the
-  // loaded state once mounted.
+  // A 404 can fire before hydration attaches onError, so re-check the loaded
+  // state after mount (and after each candidate swap).
   useEffect(() => {
     const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth === 0) setMissing(true);
-  }, []);
+    if (img && img.complete && img.naturalWidth === 0) {
+      setSrcIndex((i) => i + 1);
+    }
+  }, [srcIndex]);
 
   return (
     <div className="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gradient-to-b from-[var(--color-gold-light)] to-[var(--color-gold-dark)] p-[1.5px] shadow-gold">
@@ -57,14 +71,14 @@ function LogoBadge({ logo }: { logo: LogoSpec }) {
           <ShieldFallback initials={logo.initials} />
         ) : (
           // Tiny decorative crest from /public — plain <img> keeps the
-          // graceful onError fallback simple.
+          // candidate-chain onError fallback simple.
           // eslint-disable-next-line @next/next/no-img-element
           <img
             ref={imgRef}
-            src={logo.src}
+            src={logo.candidates[srcIndex]}
             alt={logo.alt}
             className="h-full w-full object-contain p-0.5"
-            onError={() => setMissing(true)}
+            onError={() => setSrcIndex((i) => i + 1)}
           />
         )}
       </div>
