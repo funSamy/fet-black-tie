@@ -15,7 +15,8 @@ const LOGOS: LogoSpec[] = [
   {
     candidates: ["/logos/ub-logo.png", "/logos/ub-logo.jpg"],
     alt: "University of Buea",
-    initials: "FETSA",  },
+    initials: "UB",
+  },
   {
     candidates: ["/logos/fet-logo.png", "/logos/fet-logo.jpg"],
     alt: "Faculty of Engineering & Technology",
@@ -24,7 +25,7 @@ const LOGOS: LogoSpec[] = [
   {
     candidates: ["/logos/fetsa-logo.png", "/logos/fetsa-logo.jpg"],
     alt: "FET Students' Association",
-    initials: "UB",
+    initials: "FETSA",
   },
 ];
 
@@ -60,7 +61,7 @@ function LogoBadge({ logo }: { logo: LogoSpec }) {
   }, [srcIndex]);
 
   return (
-    <div className="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gradient-to-b from-[var(--color-gold-light)] to-[var(--color-gold-dark)] p-[1.5px] shadow-gold">
+    <div className="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-linear-to-b from-(--color-gold-light) to-(--color-gold-dark) p-[1.5px] shadow-gold">
       <div
         className={`h-full w-full rounded-full flex items-center justify-center overflow-hidden ${
           missing ? "bg-card" : "bg-white"
