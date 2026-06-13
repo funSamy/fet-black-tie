@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next"
 
 // Self-hosted fonts (same families the design system references in globals.css).
 import "@fontsource/bebas-neue";
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Toaster richColors position="top-center" />
+        <Analytics />
       </body>
     </html>
   );
