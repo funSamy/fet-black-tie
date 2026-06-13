@@ -49,7 +49,7 @@ export function BookingForm({ tier, onCancel }: Props) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl border border-[var(--color-gold)]/40 bg-card/95 p-6 sm:p-8 shadow-gold backdrop-blur"
+      className="rounded-2xl border border-gold/40 bg-card/95 p-6 sm:p-8 shadow-gold backdrop-blur"
       style={{ animation: "fade-in 0.4s ease-out" }}
     >
       <div className="mb-6 flex items-start justify-between gap-4">
@@ -77,7 +77,7 @@ export function BookingForm({ tier, onCancel }: Props) {
             placeholder="As it appears on your ID"
             value={form.buyerName}
             onChange={(e) => setForm({ ...form, buyerName: e.target.value })}
-            className="mt-1.5 bg-background border-border focus:border-[var(--color-gold)]"
+            className="mt-1.5 bg-background border-border focus:border-(--color-gold)"
           />
         </div>
         <div>
@@ -89,7 +89,7 @@ export function BookingForm({ tier, onCancel }: Props) {
             placeholder="you@example.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="mt-1.5 bg-background border-border focus:border-[var(--color-gold)]"
+            className="mt-1.5 bg-background border-border focus:border-(--color-gold)"
           />
         </div>
         <div>
@@ -103,7 +103,7 @@ export function BookingForm({ tier, onCancel }: Props) {
             placeholder="670000000"
             value={form.phoneNumber}
             onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
-            className="mt-1.5 bg-background border-border focus:border-[var(--color-gold)]"
+            className="mt-1.5 bg-background border-border focus:border-(--color-gold)"
           />
           <p className="mt-1 text-xs text-muted-foreground">
             Cameroonian mobile money number — 9 digits starting with 6.
@@ -124,7 +124,7 @@ export function BookingForm({ tier, onCancel }: Props) {
         <Button
           type="submit"
           disabled={busy}
-          className="bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)] text-background font-condensed uppercase tracking-widest hover:opacity-95 shadow-gold"
+          className="bg-linear-to-r from-(--color-gold-dark) via-(--color-gold) to-(--color-gold-light) text-background font-condensed uppercase tracking-widest hover:opacity-95 shadow-gold"
         >
           {busy ? (
             <>

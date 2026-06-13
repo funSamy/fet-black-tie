@@ -40,7 +40,7 @@ export function FlipClock({ targetISO }: Props) {
     <div className="flex items-center gap-2 sm:gap-3">
       {cells.map((c) => (
         <div key={c.label} className="flex flex-col items-center">
-          <div className="relative overflow-hidden rounded-md bg-gradient-to-b from-[var(--color-surface-2)] to-card px-3 py-2 sm:px-4 sm:py-3 min-w-[60px] sm:min-w-[72px] border border-border shadow-gold">
+          <div className="relative overflow-hidden rounded-md bg-linear-to-b from-(--color-surface-2) to-card px-3 py-2 sm:px-4 sm:py-3 min-w-15 sm:min-w-18 border border-border shadow-gold">
             <span
               key={c.value}
               suppressHydrationWarning

@@ -29,14 +29,14 @@ export function TicketCard({ tier, selected, onSelect }: Props) {
       className={`group relative flex w-full overflow-hidden rounded-xl border text-left transition-all duration-300
         ${
           selected
-            ? "border-[var(--color-gold)] ring-gold scale-[1.01]"
-            : "border-border hover:border-[var(--color-gold)]/60 hover:shadow-gold"
+            ? "border-(--color-gold) ring-gold scale-[1.01]"
+            : "border-border hover:border-gold/60 hover:shadow-gold"
         }`}
     >
       {/* Body */}
-      <div className="relative flex-1 bg-gradient-to-br from-card to-[var(--color-surface-2)] p-5 sm:p-6">
+      <div className="relative flex-1 bg-linear-to-br from-card to-(--color-surface-2) p-5 sm:p-6">
         {/* Subtle radial glow on hover */}
-        <div className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[var(--color-gold)]/0 blur-3xl transition-colors duration-500 group-hover:bg-[var(--color-gold)]/10" />
+        <div className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-gold/0 blur-3xl transition-colors duration-500 group-hover:bg-gold/10" />
 
         <div className="flex items-center justify-between gap-3">
           <UniversityLogos />

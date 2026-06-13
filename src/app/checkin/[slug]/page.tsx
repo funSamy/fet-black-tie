@@ -38,13 +38,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </p>
         </div>
       ) : (
-        <div className="rounded-2xl border border-[var(--color-gold)]/40 bg-card p-6 sm:p-8 shadow-gold">
+        <div className="rounded-2xl border border-gold/40 bg-card p-6 sm:p-8 shadow-gold">
           <div className="text-center">
             {ticket.orderPaid ? (
               ticket.isFullyUsed ? (
                 <AlertTriangle className="mx-auto h-10 w-10 text-amber-300" />
               ) : (
-                <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--color-stub-green)]" />
+                <CheckCircle2 className="mx-auto h-10 w-10 text-(--color-stub-green)" />
               )
             ) : (
               <XCircle className="mx-auto h-10 w-10 text-rose-300" />
@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 Payment
               </div>
               <div
-                className={ticket.orderPaid ? "text-[var(--color-stub-green)]" : "text-rose-300"}
+                className={ticket.orderPaid ? "text-(--color-stub-green)" : "text-rose-300"}
               >
                 {ticket.orderPaid ? "Confirmed" : "Not confirmed"}
               </div>

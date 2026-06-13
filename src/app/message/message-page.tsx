@@ -62,7 +62,7 @@ export function MessagePage() {
 
       <form
         onSubmit={onSubmit}
-        className="mt-8 rounded-2xl border border-[var(--color-gold)]/40 bg-card/95 p-6 sm:p-8 shadow-gold"
+        className="mt-8 rounded-2xl border border-gold/40 bg-card/95 p-6 sm:p-8 shadow-gold"
       >
         <div className="space-y-4">
           <div>
@@ -76,7 +76,7 @@ export function MessagePage() {
               placeholder="Say something kind, funny, or unforgettable."
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="mt-1.5 bg-background border-border focus:border-[var(--color-gold)] resize-none"
+              className="mt-1.5 bg-background border-border focus:border-(--color-gold) resize-none"
             />
             <div className="mt-1 text-right text-xs text-muted-foreground">
               {form.content.length} / 500
@@ -90,7 +90,7 @@ export function MessagePage() {
               placeholder="Leave blank to stay anonymous"
               value={form.displayName}
               onChange={(e) => setForm({ ...form, displayName: e.target.value })}
-              className="mt-1.5 bg-background border-border focus:border-[var(--color-gold)]"
+              className="mt-1.5 bg-background border-border focus:border-(--color-gold)"
             />
           </div>
         </div>
@@ -98,7 +98,7 @@ export function MessagePage() {
         <Button
           type="submit"
           disabled={busy}
-          className="mt-6 w-full bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)] text-background font-condensed uppercase tracking-widest hover:opacity-95 shadow-gold"
+          className="mt-6 w-full bg-linear-to-r from-(--color-gold-dark) via-(--color-gold) to-(--color-gold-light) text-background font-condensed uppercase tracking-widest hover:opacity-95 shadow-gold"
         >
           {busy ? (
             <>
@@ -113,7 +113,7 @@ export function MessagePage() {
 
         {sent && (
           <p
-            className="mt-4 text-center text-sm text-[var(--color-stub-green)]"
+            className="mt-4 text-center text-sm text-(--color-stub-green)"
             style={{ animation: "fade-in 0.4s ease-out" }}
           >
             ✓ Sent. A moderator will approve it before it shows on the projector.

@@ -15,8 +15,7 @@ const LOGOS: LogoSpec[] = [
   {
     candidates: ["/logos/ub-logo.png", "/logos/ub-logo.jpg"],
     alt: "University of Buea",
-    initials: "UB",
-  },
+    initials: "FETSA",  },
   {
     candidates: ["/logos/fet-logo.png", "/logos/fet-logo.jpg"],
     alt: "Faculty of Engineering & Technology",

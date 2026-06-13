@@ -45,7 +45,7 @@ export function SpotlightCursor() {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-0 h-[800px] w-[800px] will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-0 h-200 w-200 will-change-transform"
       style={{
         background:
           "radial-gradient(circle, oklch(0.55 0.22 28 / 0.18) 0%, oklch(0.78 0.16 84 / 0.10) 30%, transparent 65%)",

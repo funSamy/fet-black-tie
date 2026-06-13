@@ -48,7 +48,7 @@ export function AuthPage({ redirectTo }: { redirectTo?: string }) {
     <main className="min-h-screen flex items-center justify-center bg-background px-4">
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-md rounded-2xl border border-[var(--color-gold)]/40 bg-card/95 p-6 sm:p-8 shadow-gold"
+        className="w-full max-w-md rounded-2xl border border-gold/40 bg-card/95 p-6 sm:p-8 shadow-gold"
       >
         <h1 className="font-display text-3xl text-gradient-gold">Staff access</h1>
         <p className="mt-1 text-sm text-muted-foreground">

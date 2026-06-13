@@ -68,11 +68,11 @@ export function FlyerShowcase() {
   return (
     <div ref={wrapRef} className="relative" aria-hidden>
       {/* Glow behind the flyer */}
-      <div className="absolute -inset-8 rounded-[2rem] bg-[radial-gradient(circle_at_center,oklch(0.78_0.16_84/0.18),transparent_70%)] blur-2xl" />
+      <div className="absolute -inset-8 rounded-4xl bg-[radial-gradient(circle_at_center,oklch(0.78_0.16_84/0.18),transparent_70%)] blur-2xl" />
 
       <div
         ref={cardRef}
-        className="relative w-[300px] sm:w-[340px] xl:w-[380px] rotate-2 rounded-2xl border border-[var(--color-gold)]/50 shadow-gold overflow-hidden"
+        className="relative w-75 sm:w-85 xl:w-95 rotate-2 rounded-2xl border border-gold/50 shadow-gold overflow-hidden"
       >
         {!missing ? (
           // Official flyer artwork from /public — decorative, dimensions unknown
@@ -123,7 +123,7 @@ function PosterFallback() {
 
       <div className="mt-3 font-script text-2xl text-gold">{EVENT.tagline}</div>
 
-      <div className="mt-6 inline-flex items-center gap-1.5 rounded-md bg-[var(--color-red-spot)] px-3 py-1 font-condensed text-xs uppercase tracking-widest text-white">
+      <div className="mt-6 inline-flex items-center gap-1.5 rounded-md bg-(--color-red-spot) px-3 py-1 font-condensed text-xs uppercase tracking-widest text-white">
         <Crown className="h-3.5 w-3.5" /> Mister & Miss FET
       </div>
 

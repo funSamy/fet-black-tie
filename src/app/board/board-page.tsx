@@ -64,8 +64,8 @@ export function BoardPage() {
           </div>
           <div className="flex items-center gap-2 pb-2 text-xs font-condensed uppercase tracking-widest text-muted-foreground">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-stub-green)] opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--color-stub-green)]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-(--color-stub-green) opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-(--color-stub-green)" />
             </span>
             Live · updates automatically
           </div>
@@ -86,11 +86,11 @@ export function BoardPage() {
             </p>
           </div>
         ) : (
-          <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3 *:mb-4">
             {messages.map((m, i) => (
               <figure
                 key={m.id}
-                className="break-inside-avoid rounded-2xl border border-[var(--color-gold)]/30 bg-card/90 p-5 shadow-gold"
+                className="break-inside-avoid rounded-2xl border border-gold/30 bg-card/90 p-5 shadow-gold"
                 style={{ animation: `fade-in 0.5s ease-out ${Math.min(i * 0.05, 0.8)}s both` }}
               >
                 <blockquote className="text-lg leading-relaxed text-foreground">

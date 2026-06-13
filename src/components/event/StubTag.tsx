@@ -15,7 +15,7 @@ const COLOR_MAP: Record<StubColor, string> = {
 export function StubTag({ color, priceLabel, tierLabel }: Props) {
   return (
     <div
-      className={`relative flex h-full min-h-[150px] w-24 flex-col items-center justify-center px-2 py-3 ${COLOR_MAP[color]}`}
+      className={`relative flex h-full min-h-37.5 w-24 flex-col items-center justify-center px-2 py-3 ${COLOR_MAP[color]}`}
       style={{
         // Perforation effect on left edge (where stub joins ticket body)
         backgroundImage:

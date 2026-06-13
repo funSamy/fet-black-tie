@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
+import Image from "next/image";
 
 interface Props {
   value: string;
@@ -33,7 +34,7 @@ export function QRDisplay({ value, size = 240 }: Props) {
       style={{ animation: "scale-in 0.5s ease-out" }}
     >
       {dataUrl ? (
-        <img src={dataUrl} alt="Your ticket QR code" width={size} height={size} className="block" />
+        <Image src={dataUrl} alt="Your ticket QR code" width={size} height={size} className="block" />
       ) : (
         <div style={{ width: size, height: size }} className="animate-pulse rounded bg-muted" />
       )}

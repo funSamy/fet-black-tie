@@ -97,14 +97,14 @@ export function ConfirmationPage({ orderId }: { orderId: string }) {
       </header>
 
       <div className="text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-[var(--color-stub-green)]" />
+        <CheckCircle2 className="mx-auto h-12 w-12 text-(--color-stub-green)" />
         <div className="mt-4 font-script text-3xl text-gold">You're in</div>
         <h1 className="font-display text-5xl text-gradient-gold leading-none">
           See you at the Gala
         </h1>
       </div>
 
-      <div className="mt-10 rounded-2xl border border-[var(--color-gold)]/40 bg-card p-6 sm:p-8 shadow-gold">
+      <div className="mt-10 rounded-2xl border border-gold/40 bg-card p-6 sm:p-8 shadow-gold">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
           <div className="shrink-0">{qrValue && <QRDisplay value={qrValue} />}</div>
           <div className="flex-1 text-center sm:text-left">
@@ -176,7 +176,7 @@ function PulsingRings() {
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className="absolute inset-0 rounded-full border-2 border-[var(--color-gold)]/60"
+          className="absolute inset-0 rounded-full border-2 border-gold/60"
           style={{
             animation: `pulse-ring 2s ease-out ${i * 0.6}s infinite`,
           }}
